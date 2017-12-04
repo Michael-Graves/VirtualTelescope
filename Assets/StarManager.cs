@@ -105,9 +105,7 @@ public class StarManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (starCatalog == null || starCatalog.text == "") {
-            starCatalog = Resources.Load("output") as TextAsset;
-        }
+        starCatalog = (TextAsset)Resources.Load("output", typeof(TextAsset));
 
         string text = starCatalog.text;
         lines = text.Split('\n');
