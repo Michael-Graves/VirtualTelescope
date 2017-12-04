@@ -6,7 +6,6 @@ public class StarManager : MonoBehaviour {
     public TextAsset starCatalog;
     public ParticleSystem ps;
     public Camera camera;
-
     private string[] lines;
     private System.DateTime epochStart = new System.DateTime(2000, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 
@@ -77,8 +76,6 @@ public class StarManager : MonoBehaviour {
             r = r / 255.0f;
             g = g / 255.0f;
             b = b / 255.0f;
-        } else {
-            print(isp[1]);
         }
         return new Color(r, g, b);
     }
@@ -94,8 +91,8 @@ public class StarManager : MonoBehaviour {
             float DEC = float.Parse(data[2]);
             float RA_PM = float.Parse(data[3]);
             float DEC_PM = float.Parse(data[4]);
-            string ISP = data[5];
-            float MAG = float.Parse(data[6]);
+            //string ISP = data[5];
+            //float MAG = float.Parse(data[6]);
             float y = Mathf.Sin(DEC + DEC_PM * yearsSinceEpoch);
             float ydist = Mathf.Cos(DEC + DEC_PM * yearsSinceEpoch);
             float z = Mathf.Cos(RA + RA_PM * yearsSinceEpoch) * ydist;
@@ -106,8 +103,12 @@ public class StarManager : MonoBehaviour {
         ps.SetParticles(particles, lines.GetLength(0)-1);
     }
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
+        if (starCatalog.text == "") {
+            starCatalog = Resources.Load("output") as TextAsset;
+        }
+
         string text = starCatalog.text;
         lines = text.Split('\n');
         float yearsSinceEpoch = YearsSinceEpoch();

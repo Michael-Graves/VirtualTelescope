@@ -36,10 +36,9 @@ public class InputManager : MonoBehaviour {
         string output = "none";
         if(TouchScreenKeyboard.visible) {
             output = "visible, ";
-            output += TouchScreenKeyboard.area.ToString();
+            output += GetKeyboardSize();
         } else {
             output = "not visible, ";
-            output += TouchScreenKeyboard.area.ToString();
         }
         field.text = output;
     }
@@ -52,6 +51,18 @@ public class InputManager : MonoBehaviour {
         horizon.transform.position = camera.transform.position - camera.transform.up * 0.1f;
 
         camera.transform.rotation = Quaternion.Euler(new Vector3(rotX, rotY, 0));
+    }
+
+    public int GetKeyboardSize() {
+        using (AndroidJavaClass UnityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")) {
+            AndroidJavaObject View = UnityClass.GetStatic<AndroidJavaObject>("currentActivity").Get<AndroidJavaObject>("mUnityPlayer").Call<AndroidJavaObject>("getView");
+
+            using (AndroidJavaObject Rct = new AndroidJavaObject("android.graphics.Rect")) {
+                View.Call("getWindowVisibleDisplayFrame", Rct);
+
+                return Screen.height - Rct.Call<int>("height");
+            }
+        }
     }
 
     public void Input_RA_H(InputField input) {
