@@ -105,7 +105,7 @@ public class StarManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (starCatalog.text == "") {
+        if (starCatalog == null || starCatalog.text == "") {
             starCatalog = Resources.Load("output") as TextAsset;
         }
 
