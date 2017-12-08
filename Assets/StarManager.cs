@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StarManager : MonoBehaviour {
-    public TextAsset starCatalog;
     public ParticleSystem ps;
     public Camera camera;
-    private string[] lines;
+    private string[] lines = StarData.data;
     private System.DateTime epochStart = new System.DateTime(2000, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 
     protected float rightAscensionOffset = 0;//-(90 - 1) * Mathf.Deg2Rad;
@@ -105,10 +104,6 @@ public class StarManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        starCatalog = (TextAsset)Resources.Load("output", typeof(TextAsset));
-
-        string text = starCatalog.text;
-        lines = text.Split('\n');
         float yearsSinceEpoch = YearsSinceEpoch();
 
         for (int i = 0; i < lines.GetLength(0)-1; i++) {
