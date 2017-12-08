@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour {
             go = false;
         }
         string output = "none";
+        output = StarData.data.GetLength(0).ToString();
         /*if(TouchScreenKeyboard.visible) {
             output = "visible, ";
             output += GetKeyboardSize();

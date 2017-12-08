@@ -5,7 +5,6 @@ using UnityEngine;
 public class StarManager : MonoBehaviour {
     public ParticleSystem ps;
     public Camera camera;
-    private string[] lines = StarData.data;
     private System.DateTime epochStart = new System.DateTime(2000, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
 
     protected float rightAscensionOffset = 0;//-(90 - 1) * Mathf.Deg2Rad;
@@ -80,11 +79,11 @@ public class StarManager : MonoBehaviour {
     }
 
     void UpdateStars() {
-        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[lines.GetLength(0)];
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[StarData.data.GetLength(0)];
         ps.GetParticles(particles);
         float yearsSinceEpoch = YearsSinceEpoch(timeOffset);
-        for (int i = 0; i < lines.GetLength(0) - 1; i++) {
-            string[] data = lines[i].Split(',');
+        for (int i = 0; i < StarData.data.GetLength(0) - 1; i++) {
+            string[] data = StarData.data[i].Split(',');
 
             float RA = -float.Parse(data[1]) + rightAscensionOffset;
             float DEC = float.Parse(data[2]);
@@ -99,15 +98,15 @@ public class StarManager : MonoBehaviour {
 
             particles[i].position = new Vector3(x, y, z) * starSphereRadius;
         }
-        ps.SetParticles(particles, lines.GetLength(0)-1);
+        ps.SetParticles(particles, StarData.data.GetLength(0)-1);
     }
 
     // Use this for initialization
     void Start() {
         float yearsSinceEpoch = YearsSinceEpoch();
 
-        for (int i = 0; i < lines.GetLength(0)-1; i++) {
-            string[] data = lines[i].Split(',');
+        for (int i = 0; i < StarData.data.GetLength(0)-1; i++) {
+            string[] data = StarData.data[i].Split(',');
 
             float RA = -float.Parse(data[1]) + rightAscensionOffset;
             float DEC = float.Parse(data[2]);
